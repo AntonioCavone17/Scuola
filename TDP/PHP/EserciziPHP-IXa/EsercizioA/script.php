@@ -5,5 +5,10 @@ $value = "$cognome $nome";
 
 setcookie("Utente", $value, time()+86400);
 
-echo "Cookie: ",($_COOKIE["Utente"]),"";
+if(!isset($_COOKIE["Utente"])) {
+    echo "Il Cookie Utente non è ancora settato";
+  } else {
+    echo "Il Cookie Utente è settato!<br>";
+    echo "Cookie: ",($_COOKIE["Utente"]),"";
+  }
 ?>
