@@ -8,6 +8,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Madimi+One&family=Titan+One&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="content">
@@ -15,7 +18,31 @@
             <h1>Chuck Norris Jokes Generator</h1>
         </div>
         <img src="static/images/chuckNorris.png" id="chuckNorris">
-        <div id="generator"></div>
+        <div id="generator">
+            <div id="result"></div>
+        </div>
+        <div id="categories">
+            <!-- <label for="categorie">Categorie: </label> -->
+            <select id="selectCat" name="categorie">
+                <option value="random" name="categorie">Nessuna categoria</option>
+                <option value="animal" name="categorie">Animali</option>
+                <option value="career" name="categorie">Carriera</option>
+                <option value="celebrity" name="categorie">Celebrità</option>
+                <option value="dev" name="categorie">Sviluppatore</option>
+                <option value="explicit" name="categorie">Esplicito</option>
+                <option value="fashion" name="categorie">Moda</option>
+                <option value="food" name="categorie">Cibo</option>
+                <option value="history" name="categorie">Storia</option>
+                <option value="money" name="categorie">Soldi</option>
+                <option value="movie" name="categorie">Film</option>
+                <option value="music" name="categorie">Musica</option>
+                <option value="political" name="categorie">Politica</option>
+                <option value="religion" name="categorie">Religione</option>
+                <option value="science" name="categorie">Scienza</option>
+                <option value="sport" name="categorie">Sport</option>
+                <option value="travel" name="categorie">Viaggio</option>
+            </select>
+        </div>
         <div id="button">
             <button type="button" id="btn">Genera</button>
         </div>
@@ -23,12 +50,21 @@
     <script>
         let btn = document.querySelector("#btn")
 
+        let categoria = document.querySelector("#selectCat").value
+
+        
 
         btn.addEventListener("click", async function(event){
             event.preventDefault()
-            let resp = await fetch("https://api.chucknorris.io/jokes/random?category=food")
+            let selectedCategory = selectCat.value
+            let apiUrl = "https://api.chucknorris.io/jokes/random"  
+            if(selectedCategory != "random"){
+                apiUrl = "https://api.chucknorris.io/jokes/random" + "?category=" + selectedCategory 
+            }
+            let resp = await fetch(apiUrl)
             let data = await resp.json();
-            document.querySelector("#generator").innerHTML = data.value
+            document.querySelector("#result").innerHTML = data.value
+
         })
     </script>
 </body>
