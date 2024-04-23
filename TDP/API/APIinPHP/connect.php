@@ -35,6 +35,23 @@ function get_movies($title){
     // 4. Add an item to the $movies array
     while($row = $result->fetch_assoc()){
         $movies[] = $row; // Add an item to the array
+        
+        $lastMovie = $movie[count($movies)-1];
+
+        $movieId = $lastMovie['id'];
+
+        $actors_sql = "SELECT a.* FROM movie_actor ma INNER JOIN actor a ON ma.actor_id = a.id WHERE ma.movie_id = $movieId";
+
+        $actorResult = mysqli_query($conn, $actors_sql);
+        if (!$actorResult){
+            die("Error retrieving actors for movie $movieId: " . mysqli_error($conn));
+        }
+
+        $movies[count($movies) - 1]["actors"] = array();
+
+        while ($actorRow = mysqli_fetch_assoc($actorResult)) {
+            $movies[count($movies) - 1]["actors"][] = $actorRow;
+        }
     }
     /*
     echo "<pre>";
@@ -56,7 +73,8 @@ function get_actors($cognome){
     
     $conn = mysqli_connect($servername, $username, $password, $database, $port);
 
-    
+
+
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
@@ -79,7 +97,7 @@ function get_actors($cognome){
     
     $conn->close();
 
-    return $actors;
+    return $actors;    
 }
 
 function get_directors($cognome){
